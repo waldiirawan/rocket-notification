@@ -1,0 +1,19 @@
+{
+    "name": "rocket-notification",
+    "version": "0.0.1",
+    "description": "Notification for nodejs",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/waldiirawan/rocket-notification.git"
+    },
+    "author": "Waldi Irawan",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/waldiirawan/rocket-notification/issues"
+    },
+    "homepage": "https://github.com/waldiirawan/rocket-notification#readme"
+}
