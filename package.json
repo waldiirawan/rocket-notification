@@ -15,5 +15,11 @@
     "bugs": {
         "url": "https://github.com/waldiirawan/rocket-notification/issues"
     },
-    "homepage": "https://github.com/waldiirawan/rocket-notification#readme"
+    "homepage": "https://github.com/waldiirawan/rocket-notification#readme",
+    "dependencies": {
+        "co": "^4.6.0",
+        "juice": "^4.2.0",
+        "mailgun-js": "^0.13.1",
+        "nodemailer": "^4.2.0"
+    }
 }
