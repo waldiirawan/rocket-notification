@@ -1,6 +1,6 @@
 'use strict'
 
-class rocketMailProvider {
+class rocketProvider {
 
   constructor (Config) {
       this.config = Config
