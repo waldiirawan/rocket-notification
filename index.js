@@ -11,7 +11,8 @@ class Notification  {
     }
 
     * send(notification) {
-        if (notification.protocol === 'email') {
+        const via = yield notification.via()
+        if (via.indexOf('mail') > -1) {
             yield this.sendMail(notification)
         }
     }
@@ -25,7 +26,7 @@ class Notification  {
     * sendMail(notification) {
         const self = this
         co(function *() {
-            const notificationResult = yield notification.build()
+            const notificationResult = yield notification.toMail()
             const html = yield notificationResult.markdown('email.message')
             const Email = yield Mail.driver(self.driver).raw('', (message) => {
                 message.html(html)
