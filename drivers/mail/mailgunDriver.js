@@ -1,11 +1,11 @@
 'use strict'
 
-class rocketMailProvider {
+class mailgunDriver {
 
-  constructor (Config) {
-      this.config = Config
-      this.transport = this._createTransport('mail.rocket.mailgun')
-  }
+    constructor (Config) {
+        this.config = Config
+        this.transport = this._createTransport('mail.rocket.mailgun')
+    }
 
   _createTransport (configKey) {
       const options = this.config.get(configKey)
@@ -20,4 +20,4 @@ class rocketMailProvider {
 
 }
 
-module.exports = rocketProvider
+module.exports = mailgunDriver
