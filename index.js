@@ -8,12 +8,16 @@ class Notification  {
 
     constructor() {
         this.driver = 'rocketMailgun'
+        this.showHtml = false
     }
 
     * send(notification) {
         const via = yield notification.via()
         if (via.indexOf('mail') > -1) {
             yield this.sendMail(notification)
+        }
+        if (via.indexOf('html') > -1) {
+            return yield this.html(notification)
         }
     }
 
@@ -42,6 +46,13 @@ class Notification  {
             })
         })
         return true
+    }
+
+    * html(notification) {
+        const self = this
+        const notificationResult = yield notification.toMail()
+        const html = yield notificationResult.markdown('email.message', { inline: false })
+        return html
     }
 
 }

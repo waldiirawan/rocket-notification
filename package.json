@@ -10,8 +10,8 @@
         "type": "git",
         "url": "git+https://github.com/waldiirawan/rocket-notification.git"
     },
-    "author": "Waldi Irawan",
-    "license": "ISC",
+    "author": "Waldi Irawan <waldiirawan127@gmail.com>",
+    "license": "MIT",
     "bugs": {
         "url": "https://github.com/waldiirawan/rocket-notification/issues"
     },
