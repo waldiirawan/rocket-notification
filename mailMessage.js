@@ -13,7 +13,8 @@ class mailMessage {
             to: { email : '', name : '' },
             cc: [],
             bcc: [],
-            subject: ''
+            subject: '',
+            data: {}
         }
         return this
     }
@@ -43,6 +44,11 @@ class mailMessage {
         return this
     }
 
+    data(data) {
+        this.data = data
+        return this
+    }
+
     greeting(greeting) {
         this.greeting = { type: 'greeting', value: greeting }
         return this
@@ -63,7 +69,7 @@ class mailMessage {
         return String(str).replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + breakTag + '$2')
     }
 
-    markdown(view) {
+    markdown(view, option = { inline: true }) {
         const self = this
         this.lines.unshift(this.greeting)
         const lines = this.lines
@@ -79,8 +85,11 @@ class mailMessage {
         return co(function *() {
             const html = yield View.make(view, { slots: yield Promise.all(promises).then((values) => {
                 return this.blah = values
-            }), env: process.env })
-            return yield Promise.resolve(juice(html))
+            }), env: process.env, subject: self.mail.subject, data: self.data })
+            if (option.inline) {
+                return yield Promise.resolve(juice(html))
+            }
+            return yield Promise.resolve(html)
         })
     }
 
