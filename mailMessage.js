@@ -8,6 +8,7 @@ class mailMessage {
 
     constructor() {
         this.lines = []
+        this.customLines = []
         this.mail = {
             from: { email : '', name : '' },
             to: { email : '', name : '' },
@@ -50,7 +51,8 @@ class mailMessage {
     }
 
     greeting(greeting) {
-        this.greeting = { type: 'greeting', value: greeting }
+        // this.greeting = { type: 'greeting', value: greeting }
+        this.lines.push({ type: 'greeting', value: greeting })
         return this
     }
 
@@ -64,6 +66,11 @@ class mailMessage {
         return this
     }
 
+    customLine(name, line) {
+        this.lines.push({ type : 'custom', view: name, value: line })
+        return this
+    }
+
     nl2br(str, isXhtml) {
         var breakTag = isXhtml ? '<br />' : '<br>'
         return String(str).replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + breakTag + '$2')
@@ -71,7 +78,6 @@ class mailMessage {
 
     markdown(view, option = { inline: true }) {
         const self = this
-        this.lines.unshift(this.greeting)
         const lines = this.lines
         const promises = []
         lines.forEach( (item) => {
@@ -101,6 +107,12 @@ class mailMessage {
 
     * lineView(item) {
         return View.make('email.line', {
+            line: this.nl2br(item.value)
+        })
+    }
+
+    * customView(item) {
+        return View.make(`email.${item.view}`, {
             line: this.nl2br(item.value)
         })
     }
