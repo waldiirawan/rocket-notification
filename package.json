@@ -1,6 +1,6 @@
 {
     "name": "rocket-notification",
-    "version": "0.0.4",
+    "version": "0.0.5",
     "description": "Notification for nodejs",
     "main": "index.js",
     "scripts": {
