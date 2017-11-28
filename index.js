@@ -31,23 +31,16 @@ class Notification  {
         const self = this
         co(function *() {
             const notificationResult = yield notification.toMail()
-            const html = []
-            if (notificationResult instanceof Array) {
-                for (let i = 0; i < notificationResult.length; i++) {
-                    html.push(yield notificationResult[i].markdown('email.message'))
-                }
-            } else {
-                html.push(yield notificationResult.markdown('email.message'))
-            }
+            const html = yield notificationResult.markdown('email.message')
             const Email = yield Mail.driver(self.driver).raw('', (message) => {
-                message.html(html.join())
-                message.subject(notificationResult[0].mail.subject)
-                message.from(notificationResult[0].mail.from.email, notificationResult[0].mail.from.name)
-                message.to(notificationResult[0].mail.to.email, notificationResult[0].mail.to.name)
-                notificationResult[0].mail.cc.forEach((item) => {
+                message.html(html)
+                message.subject(notificationResult.mail.subject)
+                message.from(notificationResult.mail.from.email, notificationResult.mail.from.name)
+                message.to(notificationResult.mail.to.email, notificationResult.mail.to.name)
+                notificationResult.mail.cc.forEach((item) => {
                     message.cc(item.email, item.name ? item.name : '')
                 })
-                notificationResult[0].mail.bcc.forEach((item) => {
+                notificationResult.mail.bcc.forEach((item) => {
                     message.bcc(item.email, item.name ? item.name : '')
                 })
             })
@@ -58,15 +51,8 @@ class Notification  {
     * html(notification) {
         const self = this
         const notificationResult = yield notification.toMail()
-        const html = []
-        if (notificationResult instanceof Array) {
-            for (let i = 0; i < notificationResult.length; i++) {
-                html.push(yield notificationResult[i].markdown('email.message', { inline: false }))
-            }
-        } else {
-            html.push(yield notificationResult.markdown('email.message', { inline: false }))
-        }
-        return html.join()
+        const html = yield notificationResult.markdown('email.message', { inline: false })
+        return html
     }
 
 }
