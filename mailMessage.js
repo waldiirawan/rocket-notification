@@ -6,7 +6,7 @@ const juice = require('juice')
 
 class mailMessage {
 
-    constructor(options = {}) {
+    constructor() {
         this.lines = []
         this.markdownMessage = 'email'
         this.baseMarkdown = ''
@@ -52,7 +52,8 @@ class mailMessage {
     }
 
     greeting(greeting) {
-        this.greeting = { type: 'greeting', value: greeting }
+        // this.greeting = { type: 'greeting', value: greeting }
+        this.lines.push({ type: 'greeting', value: greeting })
         return this
     }
 
@@ -63,6 +64,11 @@ class mailMessage {
 
     button(name, url = 'http://', color = 'blue') {
         this.lines.push({ type: 'button', name: name, url: url, color: color })
+        return this
+    }
+
+    customLine(name, line) {
+        this.lines.push({ type : 'custom', view: name, value: line })
         return this
     }
 
@@ -81,7 +87,6 @@ class mailMessage {
 
     render(option = { inline: true }) {
         const self = this
-        this.lines.unshift(this.greeting)
         const lines = this.lines
         const promises = []
         lines.forEach( (item) => {
@@ -111,6 +116,12 @@ class mailMessage {
 
     * lineView(item) {
         return view.render(`${this.baseMarkdown}.line`, {
+            line: this.nl2br(item.value)
+        })
+    }
+
+    * customView(item) {
+        return view.render(`${this.baseMarkdown}.${item.view}`, {
             line: this.nl2br(item.value)
         })
     }
