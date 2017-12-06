@@ -6,7 +6,7 @@ const juice = require('juice')
 
 class mailMessage {
 
-    constructor() {
+    constructor(options = {}) {
         this.lines = []
         this.markdownMessage = 'email'
         this.baseMarkdown = ''
