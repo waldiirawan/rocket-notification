@@ -1,0 +1,21 @@
+{% extends 'email.layout' %}
+
+{# Header #}
+{% block header %}
+    {% from 'email.header' import header %}
+    {{ header('Test', 'http://' + env.HOSTS_ROOT) }}
+{% endblock %}
+
+{# Body #}
+{% block slot %}
+    {% for slot in slots %}
+        {{ slot | safe }}
+    {% endfor %}
+{% endblock %}
+
+{# Footer #}
+{% block footer %}
+    {% from 'email.footer' import footer %}
+
+    {{ footer('Test', 'http://' + env.HOSTS_ROOT) }}
+{% endblock %}

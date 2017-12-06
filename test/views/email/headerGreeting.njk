@@ -1,0 +1,16 @@
+{% macro headerGreeting(title) %}
+    <tr>
+        <td class="header-subject">
+            <table width="100%" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td class="title">
+                        {{ title.toUpperCase() }}
+                    </td>
+                    <td width="100%">
+                        <div class="horizontalLine"></div>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+{% endmacro %}

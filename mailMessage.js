@@ -1,13 +1,15 @@
 'use strict'
 
-const View = use('View')
+const view = require('./view')
 const co = require('co')
 const juice = require('juice')
 
 class mailMessage {
 
-    constructor() {
+    constructor(options = {}) {
         this.lines = []
+        this.markdownMessage = 'email'
+        this.baseMarkdown = ''
         this.mail = {
             from: { email : '', name : '' },
             to: { email : '', name : '' },
@@ -69,7 +71,15 @@ class mailMessage {
         return String(str).replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + breakTag + '$2')
     }
 
-    markdown(view, option = { inline: true }) {
+    markdown(view, option = {}) {
+        this.baseMarkdown = view.split('.')
+        this.markdownMessage = this.baseMarkdown.join('/')
+        this.baseMarkdown.pop()
+        this.baseMarkdown = this.baseMarkdown.join('/')
+        return this
+    }
+
+    render(option = { inline: true }) {
         const self = this
         this.lines.unshift(this.greeting)
         const lines = this.lines
@@ -78,35 +88,35 @@ class mailMessage {
             promises.push(
                 co(function *() {
                     const view = yield self[`${(item).type}View`]((item))
-                    return yield Promise.resolve(view)
+                    return yield Promise.resolve(self.markdownMessage)
                 })
             )
         })
         return co(function *() {
-            const html = yield View.make(view, { slots: yield Promise.all(promises).then((values) => {
+            const html = view.render(self.markdownMessage, { slots: yield Promise.all(promises).then((values) => {
                 return this.blah = values
             }), env: process.env, subject: self.mail.subject, data: self.data })
             if (option.inline) {
-                return yield Promise.resolve(juice(html))
+                return juice(html)
             }
-            return yield Promise.resolve(html)
+            return html
         })
     }
 
     * greetingView(item) {
-        return View.make('email.greeting', {
+        return view.render(`${this.baseMarkdown}.greeting`, {
             greeting: this.nl2br(item.value)
         })
     }
 
     * lineView(item) {
-        return View.make('email.line', {
+        return view.render(`${this.baseMarkdown}.line`, {
             line: this.nl2br(item.value)
         })
     }
 
     * buttonView(item) {
-        return View.make('email.button', {
+        return view.render(`${this.baseMarkdown}.button`, {
             name: item.name,
             url: item.url,
             color: item.color
