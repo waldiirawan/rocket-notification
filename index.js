@@ -1,7 +1,5 @@
 'use strict'
 
-const Mail = use('Mail')
-const View = use('View')
 const co = require('co')
 
 class Notification  {
@@ -31,7 +29,7 @@ class Notification  {
         const self = this
         co(function *() {
             const notificationResult = yield notification.toMail()
-            const html = yield notificationResult.markdown('email.message')
+            const html = yield notificationResult.render()
             const Email = yield Mail.driver(self.driver).raw('', (message) => {
                 message.html(html)
                 message.subject(notificationResult.mail.subject)
@@ -51,7 +49,7 @@ class Notification  {
     * html(notification) {
         const self = this
         const notificationResult = yield notification.toMail()
-        const html = yield notificationResult.markdown('email.message', { inline: false })
+        const html = yield notificationResult.render({ inline: false })
         return html
     }
 
