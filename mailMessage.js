@@ -8,6 +8,7 @@ class mailMessage {
 
     constructor(options = {}) {
         this.lines = []
+        this.customLines = []
         this.markdownMessage = 'email'
         this.baseMarkdown = ''
         this.mail = {
@@ -122,6 +123,12 @@ class mailMessage {
 
     * customView(item) {
         return view.render(`${this.baseMarkdown}.${item.view}`, {
+            line: this.nl2br(item.value)
+        })
+    }
+
+    * customView(item) {
+        return View.make(`email.${item.view}`, {
             line: this.nl2br(item.value)
         })
     }
