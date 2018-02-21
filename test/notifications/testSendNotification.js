@@ -8,7 +8,11 @@ class testNotification {
   }
 
   via() {
-    return ['html']
+    return ['mail']
+  }
+
+  mailDriver() {
+    return 'mailgun'
   }
 
   toMail() {
@@ -19,6 +23,7 @@ class testNotification {
       .greeting('Hai :)')
       .line('Test')
       .markdown('email.message')
+      .button('CLICK HERE', 'http://example.com')
   }
 }
 

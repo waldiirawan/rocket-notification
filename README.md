@@ -1,4 +1,4 @@
-# rocket-notification
+# Rocket Notification
 
 [![NPM Version][npm-image]][npm-url]
 [![Build Status][travis-image]][travis-url]

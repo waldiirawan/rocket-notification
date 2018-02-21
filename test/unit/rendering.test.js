@@ -1,5 +1,5 @@
 require('dotenv').config()
-const testSendNotification = require('../notifications/testSendNotification')
+const testNotification = require('../notifications/testNotification')
 const rocket = require('../../src/')
 const Rocket = new rocket({
   mailgun: {
@@ -20,10 +20,11 @@ const Rocket = new rocket({
 
 describe('Test rendering view', () => {
   it('should call generator function and return string', () => {
-    Rocket.driver('mailgun').send(new testSendNotification({ }))
+    Rocket.driver('mailgun').send(new testNotification({ }))
       .then((result) => {
-        expect.objectContaining(result)
-      }).catch((error) => {
+        expect.stringContaining(result.html)
+      })
+      .catch((error) => {
         console.error(error)
       })
   })
