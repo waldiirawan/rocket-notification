@@ -135,8 +135,15 @@ class mailMessage {
     }
 
     customView(item) {
+        if (typeof item.value === 'string') {
+            item.value = this.nl2br(item.value)
+        } else if (Array.isArray(item.value)) {
+            item.value = item.value.map( elem => {
+                return this.nl2br(elem)
+            })
+        }
         return this.view.render(`${this._baseMarkdown}.${item.view}`, {
-            line: this.nl2br(item.value)
+            line: item.value
         })
     }
 
