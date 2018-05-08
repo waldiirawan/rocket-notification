@@ -22,20 +22,24 @@ class mail {
         this._driver = driver || 'smtp'
         this.registerTransporter()
         if (transporterStore.list()[this._driver]) {
-            this._transporter = transporterStore.list()[this._driver]
+            this.transporter = transporterStore.list()[this._driver]
         }
         return this
     }
 
     send (data) {
         return new Promise((resolve, reject) => {
-            this._transporter.sendMail(data, (error, result) => {
-                if (error) {
-                    reject(error)
-                } else {
-                    resolve(result)
-                }
-            })
+            if (this.transporter) {
+                this.transporter.sendMail(data, (error, result) => {
+                    if (error) {
+                        reject(error)
+                    } else {
+                        resolve(result)
+                    }
+                })
+            } else {
+                reject({ error: 'Not Driver found!' })
+            }
         })
     }
 }
