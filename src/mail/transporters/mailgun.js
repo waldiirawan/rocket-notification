@@ -11,8 +11,8 @@ class mailgun {
         return require('mailgun-js')(config)
     }
 
-    send(message) {
-        return this.transport.messages().send(message.data)
+    send(message, callback) {
+        return this.transport.messages().send(message.data, callback)
     }
 }
 

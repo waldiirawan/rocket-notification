@@ -1,5 +1,6 @@
 'use strict'
 const mail = require('./mail')
+const fs = require('fs')
 
 class Rocket {
     constructor(config) {
@@ -8,24 +9,30 @@ class Rocket {
         } else {
             this._config = Object.assign({}, config)
         }
-
-        const fs = require('fs')
-        const result = {}
+        this.result = {}
         const currentPath = this._config.notificationAppLocation + '/'
+        this.notificationController(currentPath)
+        this.notifications = this.result
+        this.mail = new mail(this._config)
+        return this
+    }
+
+    notificationController(currentPath) {
         const dir = fs.readdirSync(currentPath)
         for (let i = 0; i < dir.length; i++) {
             const output = dir[i]
-            const notification = require(currentPath + output)
-            if (typeof notification.channel === 'string') {
-                result[notification.channel] = {
-                    channel: notification.channel,
-                    notification: notification
+            if (fs.lstatSync(currentPath + output).isDirectory()) {
+                this.notificationController(`${currentPath}${output}/`)
+            } else {
+                const notification = require(currentPath + output)
+                if (typeof notification.channel === 'string') {
+                    this.result[notification.channel] = {
+                        channel: notification.channel,
+                        notification: notification
+                    }
                 }
             }
         }
-        this.notifications = result
-        this.mail = new mail(this._config)
-        return this
     }
 
     send(channel, payload = {}) {
