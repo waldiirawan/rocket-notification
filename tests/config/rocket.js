@@ -27,6 +27,16 @@ module.exports = {
                 }
             }
         },
+        sms: {
+            default: 'nexmo',
+
+            nexmo: {
+                apiKey: process.env.NEXMO_API_KEY,
+                apiSecret: process.env.NEXMO_API_SECRET,
+                applicationId: process.env.NEXMO_APP_ID,
+                privateKey: process.env.NEXMO_PRIVATE_KEY_PATH
+            }
+        },
         notification: {
             credential: 'cheers-firebase-adminsdk.json',
             databaseURL: 'https://cheers-63cbf.firebaseio.com'
