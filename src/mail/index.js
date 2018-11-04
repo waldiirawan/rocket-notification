@@ -30,15 +30,15 @@ class mail {
     send (data) {
         return new Promise((resolve, reject) => {
             if (this.transporter) {
-                this.transporter.sendMail(data, (error, result) => {
+                this.transporter.sendMail(data, (error, response) => {
                     if (error) {
-                        reject(error)
+                        reject({ mailerMessage: data, error })
                     } else {
-                        resolve(result)
+                        resolve({ mailerMessage: data, response })
                     }
                 })
             } else {
-                reject({ error: 'Not Driver found!' })
+                reject({ mailerMessage: data, error: { message: 'Not Driver found!' } })
             }
         })
     }
