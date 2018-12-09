@@ -11,7 +11,9 @@ class pushNotificationMessage {
                 icon: null,
                 body: null,
                 color: 'blue',
-                click_action: 'APPNAME'
+                click_action: 'APPNAME',
+                sound: 'default',
+                show_in_foreground: true,
             },
             data: {
                 json: JSON.stringify({
@@ -57,6 +59,16 @@ class pushNotificationMessage {
 
     color(color) {
         this.fcmPayload.notification.color = color
+        return this
+    }
+
+    sound(sound) {
+        this.fcmPayload.notification.sound = sound
+        return this
+    }
+
+    showInForeground(show) {
+        this.fcmPayload.notification.show_in_foreground = show
         return this
     }
 
