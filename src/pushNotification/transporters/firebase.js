@@ -1,10 +1,18 @@
 'use strict'
 
+const transporterStore = require('../transporterStore')
+
 class firebase {
     constructor(config) {
         this.config = config.firebase
         this.name = 'firebase'
-        this.transport = this._createTransport(config.firebase)
+        if (!transporterStore.list()[this.name]) {
+            this.transport = this._createTransport(config.firebase)
+            return true
+        } else {
+            this.transport = transporterStore.list()[this.name].transport
+        }
+        return false
     }
 
     _createTransport(config) {

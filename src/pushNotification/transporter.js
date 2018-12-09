@@ -7,13 +7,16 @@ class transporter {
 
     plugin(transport) {
         const newTransport = new transport(this._config)
-        const pushNotificationTransport = {
-            name: newTransport.name,
-            send(message, callback) {
-                newTransport.send(message, callback)
+        if (newTransport) {
+            const pushNotificationTransport = {
+                transport: newTransport.transport,
+                name: newTransport.name,
+                send(message, callback) {
+                    newTransport.send(message, callback)
+                }
             }
+            transporterStore.add(newTransport.name, pushNotificationTransport)
         }
-        transporterStore.add(newTransport.name, pushNotificationTransport)
         return this
     }
 }
