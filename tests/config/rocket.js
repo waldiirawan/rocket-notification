@@ -37,9 +37,21 @@ module.exports = {
                 privateKey: process.env.NEXMO_PRIVATE_KEY_PATH
             }
         },
-        notification: {
-            credential: 'cheers-firebase-adminsdk.json',
-            databaseURL: 'https://cheers-63cbf.firebaseio.com'
+        pushnotif: {
+            default: 'firebase',
+            firebase: {
+                driver: 'firebase',
+                configType: 'json', // json or field,
+                jsonFile: `${__dirname}/service-account-key.json`,
+                projectId: process.env.FIRBASE_PROJECT_ID,
+                clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+                privateKey:  process.env.FIREBASE_PRIVATE_KEY,
+                databaseURL: process.env.FIREBASE_DATABASE_URL,
+                clickAction: 'TOLONGIN_APPS',
+                options: {
+                    content_available: true
+                }
+            }
         }
     }
 }

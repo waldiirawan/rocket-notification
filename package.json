@@ -19,7 +19,7 @@
     "dependencies": {
         "aws-sdk": "^2.199.0",
         "co": "^4.6.0",
-        "firebase-admin": "^5.9.0",
+        "firebase-admin": "^6.3.0",
         "juice": "^4.2.0",
         "mailgun-js": "^0.13.1",
         "nexmo": "^2.4.0",
