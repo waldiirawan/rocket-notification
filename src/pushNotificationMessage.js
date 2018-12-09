@@ -13,7 +13,7 @@ class pushNotificationMessage {
                 color: 'blue',
                 click_action: 'APPNAME',
                 sound: 'default',
-                show_in_foreground: true,
+                show_in_foreground: 'true',
             },
             data: {
                 json: JSON.stringify({
