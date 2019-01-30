@@ -3,7 +3,7 @@
 const transporter = require('./transporter')
 const transporterStore = require('./transporterStore')
 
-class sms {
+class pushNotification {
     constructor (config) {
         this._config = config
         this._transporter = new transporter(config.connection.pushnotif)
@@ -31,6 +31,7 @@ class sms {
                     if (error) {
                         reject({ pushNotificationMessage: data, error })
                     } else {
+                        console.log('{ pushNotificationMessage: data, response }', { pushNotificationMessage: data, response })
                         resolve({ pushNotificationMessage: data, response })
                     }
                 })
@@ -41,4 +42,4 @@ class sms {
     }
 }
 
-module.exports = sms
+module.exports = pushNotification

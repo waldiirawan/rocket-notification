@@ -3,6 +3,7 @@ const mail = require('./mail')
 const sms = require('./sms')
 const pushNotification = require('./pushNotification')
 const fs = require('fs')
+const AsyncFunction = (async () => {}).constructor
 
 class Rocket {
     constructor(config) {
@@ -40,20 +41,29 @@ class Rocket {
     }
 
     send(channel, payload = {}) {
-        const notification = new this.notifications[channel].notification(this._config, payload)
-        const via = notification.via()
-        if (via.indexOf('mail') > -1) {
-            return this.sendMail(notification)
-        }
-        if (via.indexOf('sms') > -1) {
-            return this.sendSMS(notification)
-        }
-        if (via.indexOf('pushNotification') > -1) {
-            return this.sendPushNotificaton(notification)
-        }
-        if (via.indexOf('html') > -1) {
-            return this.html(notification)
-        }
+        const self = this
+        return new Promise(function(resolve, reject) {
+            if (self.notifications[channel]) {
+                resolve()
+            } else {
+                reject({ error: { name: 'NotFoundChannel', message: 'No Channel Found!' } })
+            }
+        }).then(() => {
+            const notification = new self.notifications[channel].notification(self._config, payload)
+            const via = notification.via()
+            if (via.indexOf('mail') > -1) {
+                return self.sendMail(notification)
+            }
+            if (via.indexOf('sms') > -1) {
+                return self.sendSMS(notification)
+            }
+            if (via.indexOf('pushNotification') > -1) {
+                return self.sendPushNotificaton(notification)
+            }
+            if (via.indexOf('html') > -1) {
+                return self.html(notification)
+            }
+        })
     }
 
     sendMail(notification) {
@@ -78,8 +88,16 @@ class Rocket {
     }
 
     sendPushNotificaton(notification) {
+        const self = this
         if (typeof notification.pushNotificationDriver === 'function') {
             this._pushNotificationDriver = notification.pushNotificationDriver()
+        }
+        if (notification.toPushNotification instanceof AsyncFunction) {
+            return notification.toPushNotification().then(notificationResult => {
+                return notificationResult.render().then(({ pushNotificationMessage }) => {
+                    return self.pushNotification.driver(self._pushNotificationDriver).send(pushNotificationMessage)
+                })
+            })
         }
         const notificationResult = notification.toPushNotification()
         return notificationResult.render().then(({ pushNotificationMessage }) => {
