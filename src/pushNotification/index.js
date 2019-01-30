@@ -31,7 +31,6 @@ class pushNotification {
                     if (error) {
                         reject({ pushNotificationMessage: data, error })
                     } else {
-                        console.log('{ pushNotificationMessage: data, response }', { pushNotificationMessage: data, response })
                         resolve({ pushNotificationMessage: data, response })
                     }
                 })
