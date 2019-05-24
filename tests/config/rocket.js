@@ -8,7 +8,7 @@ module.exports = {
 
     connection: {
         mail: {
-            default: 'mailgun',
+            default: process.env.MAIL_DEFAULT,
 
             mailgun: {
                 driver: 'mailgun',

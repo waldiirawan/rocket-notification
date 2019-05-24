@@ -26,8 +26,10 @@ class firebase {
     }
 
     send(message, callback) {
-        if (!message.fcmPayload.notification.click_action) {
-            message.fcmPayload.notification.click_action = this.config.clickAction
+        if (message.fcmPayload.notification) {
+            if (!message.fcmPayload.notification.click_action) {
+                message.fcmPayload.notification.click_action = this.config.clickAction
+            }
         }
         if (message.notification_id && (message.target.length > 1 || (message.target.length > 0 && message.topics.length > 0)) ) {
             callback({ message: 'notification_id not suported for multiple target!' }, null)
