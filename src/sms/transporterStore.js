@@ -11,7 +11,10 @@ class transporterStore {
         this._transporters = {}
     }
 
-    list() {
+    list(name = null) {
+        if (name) {
+            return this._transporters[name] ? this._transporters[name] : null
+        }
         return this._transporters
     }
 }

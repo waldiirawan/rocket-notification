@@ -7,11 +7,18 @@ const aws = require('aws-sdk')
 class mail {
     constructor (config) {
         this._config = config
+        this._transporterStore = transporterStore
         this._transporter = new transporter(config.connection.mail)
+        for (let prop in config.connection.mail) {
+            const appDriver = config.connection.mail[prop]
+            if (appDriver.initApp) {
+                this.registerTransporter(true)
+            }
+        }
     }
 
-    registerTransporter () {
-        if (this._driver === 'mailgun') {
+    registerTransporter (initApp = false) {
+        if (initApp || this._driver === 'mailgun') {
             this._transporter.plugin(require('./transporters/mailgun.js'))
         }
         this._transporter.smtp('smtp')

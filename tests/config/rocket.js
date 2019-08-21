@@ -41,6 +41,7 @@ module.exports = {
             default: 'firebase',
             firebase: {
                 driver: 'firebase',
+                initApp: true,
                 configType: 'json', // json or field,
                 jsonFile: `${__dirname}/service-account-key.json`,
                 projectId: process.env.FIRBASE_PROJECT_ID,
