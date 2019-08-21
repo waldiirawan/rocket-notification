@@ -6,11 +6,18 @@ const transporterStore = require('./transporterStore')
 class sms {
     constructor (config) {
         this._config = config
+        this._transporterStore = transporterStore
         this._transporter = new transporter(config.connection.sms)
+        for (let prop in config.connection.sms) {
+            const appDriver = config.connection.sms[prop]
+            if (appDriver.initApp) {
+                this.registerTransporter(true)
+            }
+        }
     }
 
-    registerTransporter () {
-        if (this._driver === 'nexmo') {
+    registerTransporter (initApp = false) {
+        if (initApp || this._driver === 'nexmo') {
             this._transporter.plugin(require('./transporters/nexmo.js'))
         }
     }
