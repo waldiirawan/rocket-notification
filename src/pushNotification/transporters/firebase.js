@@ -56,7 +56,7 @@ class firebase {
                 })
         }
         if (message.topics.length > 0) {
-            return this.transport.messaging().sendToDevice(message.topics, message.fcmPayload, this.config.options)
+            return this.transport.messaging().sendToTopic(message.topics[0], message.fcmPayload, this.config.options)
                 .then((response) => {
                     if (!response.failureCount) {
                         callback(null, response)
