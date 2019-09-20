@@ -40,30 +40,48 @@ class Rocket {
         }
     }
 
-    send(channel, payload = {}) {
-        const self = this
-        return new Promise(function(resolve, reject) {
-            if (self.notifications[channel]) {
+    findChannel(channel) {
+        return new Promise((resolve, reject) => {
+            if (this.notifications[channel]) {
                 resolve()
             } else {
-                reject({ error: { name: 'NotFoundChannel', message: 'No Channel Found!' } })
-            }
-        }).then(() => {
-            const notification = new self.notifications[channel].notification(self._config, payload)
-            const via = notification.via()
-            if (via.indexOf('mail') > -1) {
-                return self.sendMail(notification)
-            }
-            if (via.indexOf('sms') > -1) {
-                return self.sendSMS(notification)
-            }
-            if (via.indexOf('pushNotification') > -1) {
-                return self.sendPushNotificaton(notification)
-            }
-            if (via.indexOf('html') > -1) {
-                return self.html(notification)
+                reject({ error: { name: 'NotFoundChannel', message: `No channel found for ${channel}!` } })
             }
         })
+    }
+
+    sendAction(channel, payload) {
+        const notification = new this.notifications[channel].notification(this._config, payload)
+        const via = notification.via()
+        if (via.indexOf('mail') > -1) {
+            return this.sendMail(notification)
+        }
+        if (via.indexOf('sms') > -1) {
+            return this.sendSMS(notification)
+        }
+        if (via.indexOf('pushNotification') > -1) {
+            return this.sendPushNotificaton(notification)
+        }
+        if (via.indexOf('html') > -1) {
+            return this.html(notification)
+        }
+    }
+
+    send(channels, payload = {}) {
+        if (typeof channels === 'object' && channels instanceof Array) {
+            const promises = []
+            for (let i = 0; i < channels.length; i++) {
+                const channel = channels[i]
+                promises.push(this.findChannel(channel).then(() => {
+                    return this.sendAction(channel, payload)
+                }))
+            }
+            return Promise.all(promises)
+        } else {
+            return this.findChannel(channels).then(() => {
+                return this.sendAction(channels, payload)
+            })
+        }
     }
 
     sendMail(notification) {
