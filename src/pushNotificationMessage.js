@@ -100,6 +100,7 @@ class pushNotificationMessage {
     render() {
         return new Promise((resolve) => {
             resolve({
+                notificationType: 'pushNotification',
                 pushNotificationMessage: {
                     target: this._target,
                     topics: this._topics,

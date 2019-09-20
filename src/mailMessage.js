@@ -115,9 +115,9 @@ class mailMessage {
         return new Promise((resolve) => {
             const html = this.view.render(this._markdownMessage, { slots: lines, env: process.env, subject: this._mailerMessage.subject, data: this._data })
             if (option.inline) {
-                resolve({ mailerMessage: this.toJSON(), html: juice(html) })
+                resolve({ notificationType: 'email', mailerMessage: this.toJSON(), html: juice(html) })
             } else {
-                resolve({ mailerMessage: this.toJSON(), html: html })
+                resolve({ notificationType: 'email', mailerMessage: this.toJSON(), html: html })
             }
         })
     }

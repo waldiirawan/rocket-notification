@@ -6,6 +6,7 @@ describe('Test rendering view', () => {
     it('should call generator function and return string', () => {
         Rocket.send('test1', { foo: 'bar' })
             .then((result) => {
+                // Rendering Markdown for email
                 expect.stringContaining(result.html)
             })
             .catch((error) => {

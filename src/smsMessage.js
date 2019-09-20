@@ -26,6 +26,7 @@ class smsMessage {
     render() {
         return new Promise((resolve) => {
             resolve({
+                notificationType: 'sms',
                 smsMessage: {
                     to: this._to,
                     from: this._from,
