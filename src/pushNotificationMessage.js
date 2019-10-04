@@ -44,6 +44,9 @@ class pushNotificationMessage {
 
     title(title) {
         this.fcmPayload.notification.title = title
+        if (!this.fcmPayload.notification.title) {
+            this.fcmPayload.notification.title = ''
+        }
         return this
     }
 
@@ -54,6 +57,9 @@ class pushNotificationMessage {
 
     body(body) {
         this.fcmPayload.notification.body = body
+        if (!this.fcmPayload.notification.body) {
+            this.fcmPayload.notification.body = ''
+        }
         return this
     }
 
