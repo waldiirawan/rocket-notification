@@ -11,7 +11,7 @@ class mail {
         this._transporter = new transporter(config.connection.mail)
         for (let prop in config.connection.mail) {
             const appDriver = config.connection.mail[prop]
-            if (appDriver.initApp) {
+            if (appDriver && appDriver.initApp) {
                 this.registerTransporter(true)
             }
         }

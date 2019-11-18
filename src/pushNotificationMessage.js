@@ -5,6 +5,8 @@ class pushNotificationMessage {
         this._target = []
         this._topics = []
         this._notification_id = null
+        this._targetChunkMultiple = false
+        this._targetChunkMultipleSize = 10
         this.fcmPayload = {
             notification: {
                 title: null,
@@ -30,6 +32,16 @@ class pushNotificationMessage {
         } else if (Array.isArray(target)) {
             this._target = this._target.concat(target)
         }
+        return this
+    }
+
+    targetChunkMultiple(isTargetChunkMultiple) {
+        this._targetChunkMultiple = isTargetChunkMultiple
+        return this
+    }
+
+    targetChunkMultipleSize(size) {
+        this._targetChunkMultipleSize = size
         return this
     }
 
@@ -107,6 +119,8 @@ class pushNotificationMessage {
         return new Promise((resolve) => {
             resolve({
                 notificationType: 'pushNotification',
+                isTargetChunkMultiple: this._targetChunkMultiple,
+                targetChunkMultipleSize: this._targetChunkMultipleSize,
                 pushNotificationMessage: {
                     target: this._target,
                     topics: this._topics,
