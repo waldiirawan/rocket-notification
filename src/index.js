@@ -105,6 +105,10 @@ class Rocket {
         })
     }
 
+    chunks(array, chunk_size) {
+      return Array(Math.ceil(array.length / chunk_size)).fill().map((_, index) => index * chunk_size).map(begin => array.slice(begin, begin + chunk_size))
+    }
+
     sendPushNotificaton(notification) {
         const self = this
         if (typeof notification.pushNotificationDriver === 'function') {
@@ -112,7 +116,16 @@ class Rocket {
         }
         if (notification.toPushNotification instanceof AsyncFunction) {
             return notification.toPushNotification().then(notificationResult => {
-                return notificationResult.render().then(({ pushNotificationMessage }) => {
+                return notificationResult.render().then(({ isTargetChunkMultiple, targetChunkMultipleSize, pushNotificationMessage }) => {
+                    if (isTargetChunkMultiple) {
+                        const groupedTargets = this.chunks(pushNotificationMessage.target, targetChunkMultipleSize)
+                        const promisesTargets = []
+                        for (let i = 0; i < groupedTargets.length; i++) {
+                          const targets = groupedTargets[i]
+                          promisesTargets.push(self.pushNotification.driver(self._pushNotificationDriver).send({ ...pushNotificationMessage, target: targets }))
+                        }
+                        return Promise.all(promisesTargets)
+                    }
                     return self.pushNotification.driver(self._pushNotificationDriver).send(pushNotificationMessage)
                 })
             })
