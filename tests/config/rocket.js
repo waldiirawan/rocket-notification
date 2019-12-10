@@ -50,6 +50,7 @@ module.exports = {
                 databaseURL: process.env.FIREBASE_DATABASE_URL,
                 clickAction: 'TOLONGIN_APPS',
                 options: {
+                    priority: 'high',
                     content_available: true
                 }
             }

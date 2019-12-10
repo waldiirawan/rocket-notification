@@ -15,7 +15,7 @@ class pushNotificationMessage {
                 color: 'blue',
                 click_action: 'APPNAME',
                 sound: 'default',
-                show_in_foreground: 'true',
+                show_in_foreground: 'true'
             },
             data: {
                 json: JSON.stringify({
@@ -82,6 +82,16 @@ class pushNotificationMessage {
 
     sound(sound) {
         this.fcmPayload.notification.sound = sound
+        return this
+    }
+
+    androidChannelId(android_channel_id) {
+        this.fcmPayload.notification.android_channel_id = android_channel_id
+        return this
+    }
+
+    image(imageUrl) {
+        this.fcmPayload.notification.image = imageUrl
         return this
     }
 

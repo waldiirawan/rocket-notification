@@ -50,7 +50,9 @@ class testPushNotification {
             .title('VUEONE')
             .icon('icontest')
             .body('Veryfication Code is 901111')
-            .color('blue')
+            .androidChannelId('privoApp')
+            .image('https://dadada')
+            .color('purple')
             // .SetNotificationId(1111)
             .payloadData({
                 foo: 'bar'
