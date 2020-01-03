@@ -37,6 +37,15 @@ module.exports = {
                 privateKey: process.env.NEXMO_PRIVATE_KEY_PATH
             }
         },
+        chat: {
+            default: 'telegram',
+
+            telegram: {
+                initApp: false,
+                botToken: process.env.TELEGRAM_BOT_TOKEN,
+                botSend: process.env.TELEGRAM_GENERAL_CHAT_ID
+            }
+        },
         pushnotif: {
             default: 'firebase',
             firebase: {

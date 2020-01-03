@@ -1,6 +1,7 @@
 'use strict'
 const mail = require('./mail')
 const sms = require('./sms')
+const chat = require('./chat')
 const pushNotification = require('./pushNotification')
 const fs = require('fs')
 const AsyncFunction = (async () => {}).constructor
@@ -18,6 +19,7 @@ class Rocket {
         this.notifications = this.result
         this.mail = new mail(this._config)
         this.sms = new sms(this._config)
+        this.chat = new chat(this._config)
         this.pushNotification = new pushNotification(this._config)
         return this
     }
@@ -65,6 +67,9 @@ class Rocket {
         if (via.indexOf('html') > -1) {
             return this.html(notification)
         }
+        if (via.indexOf('chat') > -1) {
+            return this.sendChat(notification)
+        }
     }
 
     send(channels, payload = {}) {
@@ -105,8 +110,18 @@ class Rocket {
         })
     }
 
+    sendChat(notification) {
+        if (typeof notification.chatDriver === 'function') {
+            this._chatDriver = notification.chatDriver()
+        }
+        const notificationResult = notification.toChat()
+        return notificationResult.render().then(({ chatMessage }) => {
+            return this.chat.driver(this._chatDriver).send(chatMessage)
+        })
+    }
+
     chunks(array, chunk_size) {
-      return Array(Math.ceil(array.length / chunk_size)).fill().map((_, index) => index * chunk_size).map(begin => array.slice(begin, begin + chunk_size))
+        return Array(Math.ceil(array.length / chunk_size)).fill().map((_, index) => index * chunk_size).map(begin => array.slice(begin, begin + chunk_size))
     }
 
     sendPushNotificaton(notification) {
@@ -121,8 +136,8 @@ class Rocket {
                         const groupedTargets = this.chunks(pushNotificationMessage.target, targetChunkMultipleSize)
                         const promisesTargets = []
                         for (let i = 0; i < groupedTargets.length; i++) {
-                          const targets = groupedTargets[i]
-                          promisesTargets.push(self.pushNotification.driver(self._pushNotificationDriver).send({ ...pushNotificationMessage, target: targets }))
+                            const targets = groupedTargets[i]
+                            promisesTargets.push(self.pushNotification.driver(self._pushNotificationDriver).send(Object.assign(pushNotificationMessage, { target: targets })))
                         }
                         return Promise.all(promisesTargets)
                     }
