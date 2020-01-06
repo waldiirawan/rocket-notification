@@ -1,6 +1,6 @@
 'use strict'
 
-class nexmo {
+class telegram {
     constructor(config) {
         this.config = config.telegram
         this.name = 'telegram'
@@ -15,8 +15,8 @@ class nexmo {
     send(message, callback) {
         const telegram = this.transport
         const transportTelegram = new telegram(message.from)
-        return transportTelegram.sendMessage(message.to, message.text, {}, callback)
+        return transportTelegram.sendMessage(message.to, message.text, {}).then(callback).catch(callback)
     }
 }
 
-module.exports = nexmo
+module.exports = telegram
