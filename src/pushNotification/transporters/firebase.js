@@ -44,7 +44,7 @@ class firebase {
             return false
         }
         if (message.target.length > 0) {
-            return this.transport.messaging().sendToDevice(message.target, message.fcmPayload, this.config.options)
+            return this.transport.messaging().sendToDevice(message.target, message.fcmPayload, Object.assign(this.config.options, message.options))
                 .then((response) => {
                     if (!response.failureCount) {
                         callback(null, response)
@@ -56,7 +56,7 @@ class firebase {
                 })
         }
         if (message.topics.length > 0) {
-            return this.transport.messaging().sendToTopic(message.topics[0], message.fcmPayload, this.config.options)
+            return this.transport.messaging().sendToTopic(message.topics[0], message.fcmPayload, Object.assign(this.config.options, message.options))
                 .then((response) => {
                     if (!response.failureCount) {
                         callback(null, response)

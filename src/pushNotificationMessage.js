@@ -7,6 +7,7 @@ class pushNotificationMessage {
         this._notification_id = null
         this._targetChunkMultiple = false
         this._targetChunkMultipleSize = 10
+        this._options = {}
         this.fcmPayload = {
             notification: {
                 title: null,
@@ -112,6 +113,13 @@ class pushNotificationMessage {
         return this
     }
 
+    SetOptions(options) {
+        if (options) {
+            this._options = options
+        }
+        return this
+    }
+
     SetNotificationId(NotificationId) {
         this._notification_id = NotificationId
         this.fcmPayload.data.json = JSON.stringify(Object.assign(JSON.parse(this.fcmPayload.data.json), {
@@ -134,6 +142,7 @@ class pushNotificationMessage {
                 pushNotificationMessage: {
                     target: this._target,
                     topics: this._topics,
+                    options: this._options,
                     notification_id: this._notification_id,
                     fcmPayload: this.fcmPayload
                 }
