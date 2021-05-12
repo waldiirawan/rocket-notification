@@ -23,7 +23,7 @@
         "juice": "^4.2.0",
         "mailgun-js": "^0.13.1",
         "nexmo": "^2.4.0",
-        "nodemailer": "^4.2.0",
+        "nodemailer": "^6.4.16",
         "nunjucks": "^3.0.1",
         "telegraf": "^3.35.0"
     },
