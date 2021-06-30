@@ -17,15 +17,16 @@
     },
     "homepage": "https://github.com/waldiirawan/rocket-notification#readme",
     "dependencies": {
-        "aws-sdk": "^2.199.0",
+        "aws-sdk": "^2.937.0",
         "co": "^4.6.0",
-        "firebase-admin": "^6.3.0",
-        "juice": "^4.2.0",
-        "mailgun-js": "^0.13.1",
+        "firebase-admin": "^9.10.0",
+        "juice": "^8.0.0",
+        "mailgun-js": "^0.22.0",
+        "mailgun.js": "^3.4.1",
         "nexmo": "^2.4.0",
-        "nodemailer": "^4.2.0",
-        "nunjucks": "^3.0.1",
-        "telegraf": "^3.35.0"
+        "nodemailer": "^6.6.2",
+        "nunjucks": "^3.2.3",
+        "telegraf": "^4.3.0"
     },
     "devDependencies": {
         "dotenv": "^5.0.0",
