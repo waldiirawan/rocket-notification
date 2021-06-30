@@ -4,10 +4,10 @@ const Rocket = new rocket(`${__dirname}/../config/rocket.js`)
 
 describe('Test rendering view', () => {
     it('should call generator function and return string', () => {
-        Rocket.send('test5', { foo: 'bar' })
-            .catch((error) => {
-                // The callback if the text message has been sent
-                console.error(error)
-            })
+        // Rocket.send('test5', { foo: 'bar' })
+        //     .catch((error) => {
+        //         // The callback if the text message has been sent
+        //         console.error(error)
+        //     })
     })
 })

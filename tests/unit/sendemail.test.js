@@ -7,7 +7,7 @@ describe('Test rendering view', () => {
         Rocket.send('test2', { foo: 'bar' })
             .then((result) => {
                 // The callback if the email has been sent
-                expect.stringContaining(result.html)
+                expect.stringContaining(result.mailerMessage.html)
             })
             .catch((error) => {
                 console.error(error)
