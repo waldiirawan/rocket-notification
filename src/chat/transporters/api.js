@@ -21,7 +21,7 @@ class api {
         const api = this.transport
         return new Promise(function(resolve) {
             if (typeof context.send === 'function') {
-                return context.send(message, api)
+                return context.send(message, api).then(callback).catch(callback)
             } else {
                 resolve()
             }
