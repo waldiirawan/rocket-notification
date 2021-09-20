@@ -20,6 +20,9 @@ class chat {
         if (initApp || this._driver === 'telegram') {
             this._transporter.plugin(require('./transporters/telegram.js'))
         }
+        if (initApp || this._driver === 'api') {
+            this._transporter.plugin(require('./transporters/api.js'))
+        }
     }
 
     driver (driver) {
@@ -31,12 +34,12 @@ class chat {
         return this
     }
 
-    send (data) {
+    send (data, callback, context) {
         return new Promise((resolve, reject) => {
             if (this.transporter) {
                 this.transporter.send(data, () => {
                     resolve({ chatMessage: data })
-                })
+                }, context)
             } else {
                 reject({ chatMessage: data, error: { message: 'Not Driver found!' } })
             }

@@ -116,7 +116,7 @@ class Rocket {
         }
         const notificationResult = notification.toChat()
         return notificationResult.render().then(({ chatMessage }) => {
-            return this.chat.driver(this._chatDriver).send(chatMessage)
+            return this.chat.driver(this._chatDriver).send(chatMessage, () => {}, notification)
         })
     }
 

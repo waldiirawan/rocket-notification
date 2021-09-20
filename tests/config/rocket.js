@@ -44,6 +44,11 @@ module.exports = {
                 initApp: false,
                 botToken: process.env.TELEGRAM_BOT_TOKEN,
                 botSend: process.env.TELEGRAM_GENERAL_CHAT_ID
+            },
+            api: {
+                baseURL: process.env.CHAT_API_BASE_URL,
+                sendURLPath: process.env.CHAT_API_SEND_URL_PATH,
+                apiKey: process.env.CHAT_API_KEY,
             }
         },
         pushnotif: {

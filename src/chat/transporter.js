@@ -9,8 +9,8 @@ class transporter {
         const newTransport = new transport(this._config)
         const mailerTransport = {
             name: newTransport.name,
-            send(message, callback) {
-                newTransport.send(message, callback)
+            send(message, callback, context) {
+                newTransport.send(message, callback, context)
             }
         }
         transporterStore.add(newTransport.name, mailerTransport)
