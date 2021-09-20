@@ -28,7 +28,7 @@ class testChatApiNotification {
 
     toChat() {
         return new chatMessage()
-            .to('6281311383560')
+            .to('xxxxxxxxxxxx')
             .text('Veryfication Code is 901111')
     }
 }
