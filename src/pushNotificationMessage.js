@@ -106,8 +106,13 @@ class pushNotificationMessage {
         return this
     }
 
-    dataOnly(isDataOnly) {
+    dataOnly(isDataOnly, putOnData = false) {
         if (isDataOnly) {
+            if (putOnData) {
+                this.fcmPayload.data.json = JSON.stringify(Object.assign(JSON.parse(this.fcmPayload.data.json), {
+                    notification: this.fcmPayload.notification
+                }))
+            }
             delete this.fcmPayload.notification
         }
         return this
